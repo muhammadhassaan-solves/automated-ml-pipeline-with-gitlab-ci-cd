@@ -1,0 +1,63 @@
+image: python:3.10
+
+stages:
+  - prepare
+  - train
+  - test
+  - deploy
+
+before_script:
+  - python -m pip install --upgrade pip
+  - pip install -r requirements.txt
+
+prepare:
+  stage: prepare
+  script:
+    - echo "Preparing environment..."
+    - python prepare_data.py
+
+train:
+  stage: train
+  script:
+    - echo "Training model..."
+    - python train.py
+  artifacts:
+    paths:
+      - model/
+
+test:
+  stage: test
+  dependencies:
+    - train
+  script:
+    - echo "Testing model..."
+    - python test.py
+
+deploy:
+  stage: deploy
+  image: ubuntu:24.04
+  before_script:
+    - apt-get update && apt-get install -y openssh-client python3-pip zip
+    - echo "$SSH_PRIVATE_KEY" > id_rsa
+    - chmod 600 id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add id_rsa
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H publicip >> ~/.ssh/known_hosts
+  script:
+    - mkdir -p ~/app                        # local folder
+    - zip -r release.zip deploy.py prepare_data.py train.py test.py model/
+    - ssh -i id_rsa ubuntu@publicip "mkdir -p /home/ubuntu/app"
+    - scp -i id_rsa release.zip ubuntu@publicip:/home/ubuntu/app/
+    - ssh -i id_rsa ubuntu@publicip "
+        unzip -o /home/ubuntu/app/release.zip -d /home/ubuntu/app &&
+        cd /home/ubuntu/app &&
+        pip3 install -r requirements.txt &&
+        pkill -f 'python3 deploy.py' || true &&
+        nohup python3 deploy.py &>/dev/null &
+      "
+  environment:
+    name: production
+    url: http://publicip:5000
+  only:
+    - main

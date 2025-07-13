@@ -22,22 +22,22 @@ This project focuses on automating machine learning workflows with GitLab CI/CD.
 
 <p align="center">
 Setup GitLab Runner <br />
-<img src="https://i.imgur.com/htIKnQq.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/htIKnQq.jpeg" />
 <br />
 <br />
 Upload all the files in Repository <br/>
-<img src="https://i.imgur.com/j12dE9h.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/j12dE9h.jpeg"/>
 <br />
 <br />
 Define CI/CD Pipeline Configuration <br/>
-<img src="https://i.imgur.com/PaeKKru.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/PaeKKru.jpeg" />
 <br />
 <br />
 View ML Pipeline Status and Troubleshoot (if require) <br/>
-<img src="https://i.imgur.com/1bwRVnm.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/1bwRVnm.jpeg"/>
 <br />
 <br />
 Final Testing <br/>
-<img src="https://i.imgur.com/wfpLuMf.jpeg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/wfpLuMf.jpeg"/>
 <br />
 </p>
